@@ -1,0 +1,242 @@
+==================================================
+COMPLAINT TEXT
+==================================================
+
+{complaint_text}
+
+==================================================
+EXTRACTION INSTRUCTIONS
+==================================================
+
+You are a legal text analysis system that extracts structured factual data from police misconduct civil rights complaints. Your task is to read the complaint text provided above and return one valid JSON object exactly following the schema below.
+
+==================================================
+PRIMARY OBJECTIVE
+==================================================
+
+Extract only information that is explicitly supported by the text. Do NOT infer, assume, generalize, or fill in missing details. If a field’s information is absent, output "".
+
+==================================================
+CATEGORIES TO EXTRACT
+==================================================
+
+1. COMPLAINT CATEGORIZATION
+--------------------------------------------------
+"is_complaint":
+
+Determine whether the provided text is clearly a legal complaint. Indicators include a case caption, identification of plaintiffs and defendants, labeling as a complaint or amended complaint, or sections typical of a pleading (allegations, causes of action, prayer for relief).  
+If the text does not show these features and appears to be another type of document (motion, order, article, etc.), classify it as not a complaint.
+
+Use ONLY:
+- "TRUE"
+- "FALSE"
+
+2. AGENCIES MENTIONED
+--------------------------------------------------
+
+List each **unique** agency exactly once.
+
+"agency_name":  
+The full name of each agency explicitly mentioned in the complaint. Include the name exactly as written.  
+If an acronym appears and the full name appears elsewhere, record the full name.  
+If only the acronym appears, record the acronym exactly as written.
+
+"agency_category":  
+Use ONLY one of the following:
+
+- "Police Department"
+- "Sheriff's Office"
+- "State Police / Highway Patrol"
+- "Marshal's Office"
+- "Constable's Office"
+- "Department of Corrections"
+- "Jail"
+- "Prison"
+- "Detention Center"
+- "Probation Department"
+- "Parole Department"
+- "Campus Police"
+- "Transit Police"
+- "Port Authority Police"
+- "Airport Police"
+- "School District Police"
+- "Tribal Police"
+- "Drug Enforcement Agency"
+- "Federal Law Enforcement"
+- "Municipality"
+- "Other"
+
+If the agency does not fit an allowed category, classify as "Other".
+
+3. INDIVIDUAL OFFICERS
+--------------------------------------------------
+
+List each **unique** officer exactly once.
+
+"officer_name":  
+The full name of each law enforcement officer explicitly mentioned. Exclude ranks, titles, and honorifics. Skip "Doe" officers.
+
+Examples:  
+- "Officer John Smith" → "John Smith" 
+- "Deputy M. Ramirez" → "M. Ramirez"
+- "Sgt. Brown" → "Brown"
+
+"agency_affiliation":  
+The full name of the agency the officer is affiliated with, **only if explicitly stated**.  
+The agency must also appear in the "agencies" list.  
+Do not infer affiliation from geography or context. If unspecified, output "".
+
+4. PLAINTIFFS
+--------------------------------------------------
+
+List each **unique** plaintiff exactly once.
+
+"plaintiff_name":  
+Full name of each plaintiff, exactly as written.
+
+"plaintiff_race": A semicolon-separated list of all races or ethnicities explicitly stated in the complaint. Use ONLY the following allowed categories: 
+- "American Indian or Alaska Native" 
+- "Asian" 
+- "Black or African American" 
+- "Hispanic or Latino" 
+- "Middle Eastern or North African" 
+- "Native Hawaiian or Other Pacific Islander" 
+- "White" 
+- "Multiracial" 
+- "Other" 
+Include a value only if the complaint explicitly states the plaintiff’s race or ethnicity. Do not infer from name, geography, or context. If the text names a race or ethnicity that does not match any allowed category, classify it as "Other". If the complaint provides no race information, output "". 
+
+"plaintiff_gender": 
+
+A semicolon-separated list of all genders explicitly stated in the complaint. Use ONLY the following allowed categories: 
+- "Male" 
+- "Female" 
+- "Transgender Man" 
+- "Transgender Woman" 
+- "Nonbinary" 
+- "Other" 
+Include a value only if the complaint explicitly states the plaintiff’s gender. Do not infer from name, geography, or context. If the text names a gender that does not match any allowed category, classify it as "Other". If the complaint provides no gender information, output "".
+
+5. CAUSES OF ACTION
+--------------------------------------------------
+
+"cause_cited":  
+The exact statute or code explicitly cited in connection with the legal wrong identified in the complaint. These are typically numbered throughout the text, and referred to as "causes of action", "claims for relief", or similar. If multiple causes of action appear with a single cause number, include them all as written. Do not include if there is no cause of action identified. Do not normalize or reformat.
+
+"cause_number":  
+The ordinal cause of action number, recorded as the numeral **inside a string**. Every cause of action should have the associated cause of action number. The causes should be labeled something similar to "First cause of action", "second cause of action", etc. 
+
+"defendants_named":  
+A semicolon-separated list of defendants (officers or agencies) explicitly linked to that specific cause of action. Write out the full names of the defendants linked to the cause of action. If there are Doe officers linked to the cause of action, please include them. 
+If none are specified, output "".
+
+6. TYPES OF MISCONDUCT
+--------------------------------------------------
+
+"types_of_misconduct":
+
+A semicolon-separated list of misconduct categories explicitly stated or clearly described.  
+Allowed categories:
+- "excessive force"
+- "negligence"
+- "unlawful arrest"
+- "unlawful search"
+- "unlawful stop"
+- "unlawful detention"
+- "failure to intervene"
+- "failure to provide medical care"
+- "inhumane conditions of confinement"
+- "retaliation"
+- "discrimination"
+- "racial profiling"
+- "verbal harassment"
+- "property destruction"
+- "fabrication of evidence"
+- "malicious prosecution"
+- "unlawful weapon use"
+- "sexual harassment"
+- "sexual assault"
+- "defamation"
+- "police killing"
+- "battery"
+- "intentional infliction of emotional distress"
+- "other"
+
+Only use "other" when misconduct is described but does not fit any listed category.  
+If no misconduct is described, output "".
+
+7. INCIDENT LOCATION
+--------------------------------------------------
+
+"incident_location":
+
+A semicolon-separated list of all explicitly stated or clearly described incident locations.  
+Allowed categories:
+- "street"
+- "highway"
+- "sidewalk"
+- "home"
+- "apartment"
+- "school"
+- "business"
+- "parking lot"
+- "public park"
+- "jail"
+- "prison"
+- "police station"
+- "hospital"
+- "vehicle"
+- "court"
+- "university"
+- "other"
+
+Only use "other" when a location is described but does not fit an allowed category.  
+If no location is described, output "".
+
+==================================================
+OUTPUT FORMAT (STRICTLY VALID JSON)
+==================================================
+
+{
+  "is_complaint": "TRUE" or "FALSE",
+  "agencies": [
+    {
+      "agency_name": "string",
+      "agency_category": "string"
+    }
+  ],
+  "officers": [
+    {
+      "officer_name": "string",
+      "agency_affiliation": "string"
+    }
+  ],
+  "plaintiffs": [
+    {
+      "plaintiff_name": "string",
+      "plaintiff_race": "string",
+      "plaintiff_gender": "string"
+    }
+  ],
+  "causes_of_action": [
+    {
+      "cause_cited": "string",
+      "cause_number": "string",
+      "defendants_named": "string"
+    }
+  ],
+  "types_of_misconduct": "string",
+  "incident_location": "string"
+}
+
+==================================================
+MANDATORY RULES
+==================================================
+
+1. Output ONLY valid JSON — no commentary or markdown.  
+2. Use "" for missing values.  
+3. Do not infer or assume demographics or affiliations.  
+4. Each entity (agency, officer, plaintiff, cause of action) must appear once per unique entity.  
+5. Use semicolons only for multiple items in one field.  
+6. When uncertain, omit rather than guess.  
+7. Output must be valid JSON that parses without modification.

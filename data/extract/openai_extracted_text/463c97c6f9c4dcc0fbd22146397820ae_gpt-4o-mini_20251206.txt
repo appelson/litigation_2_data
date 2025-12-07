@@ -1,0 +1,74 @@
+{
+  "is_complaint": "TRUE",
+  "agencies": [
+    {
+      "agency_name": "CITY AND BOROUGH OF JUNEAU",
+      "agency_category": "Municipality"
+    },
+    {
+      "agency_name": "Juneau Police Department",
+      "agency_category": "Police Department"
+    }
+  ],
+  "officers": [
+    {
+      "officer_name": "ED MERCER",
+      "agency_affiliation": "CITY AND BOROUGH OF JUNEAU"
+    },
+    {
+      "officer_name": "JAMES ESBENSHADE",
+      "agency_affiliation": "Juneau Police Department"
+    }
+  ],
+  "plaintiffs": [
+    {
+      "plaintiff_name": "KEVIN STEPHENS",
+      "plaintiff_race": "",
+      "plaintiff_gender": "Male"
+    },
+    {
+      "plaintiff_name": "VIRGINIA STEPHENS",
+      "plaintiff_race": "",
+      "plaintiff_gender": "Female"
+    }
+  ],
+  "causes_of_action": [
+    {
+      "cause_cited": "Deprivation of Civil Rights Under 42 U.S.C. § 1983 (Fourth Amendment)",
+      "cause_number": "1",
+      "defendants_named": "JAMES ESBENSHADE"
+    },
+    {
+      "cause_cited": "Deprivation of Civil Rights Under 42 U.S.C. § 1983 (Fourteenth Amendment)",
+      "cause_number": "2",
+      "defendants_named": "JAMES ESBENSHADE"
+    },
+    {
+      "cause_cited": "Deprivation of Civil Rights Under 42 U.S.C. § 1983 (Monell)",
+      "cause_number": "3",
+      "defendants_named": "ED MERCER; CITY AND BOROUGH OF JUNEAU"
+    },
+    {
+      "cause_cited": "Deprivation of Civil Rights Under 42 U.S.C. § 1983 (Supervisory Liability)",
+      "cause_number": "4",
+      "defendants_named": "ED MERCER"
+    },
+    {
+      "cause_cited": "Assault and Battery -- Survival Action (AS 09.55.570)",
+      "cause_number": "5",
+      "defendants_named": "JAMES ESBENSHADE; CITY AND BOROUGH OF JUNEAU"
+    },
+    {
+      "cause_cited": "Negligence -- Survival Action (AS 09.55.570)",
+      "cause_number": "6",
+      "defendants_named": "JAMES ESBENSHADE; CITY AND BOROUGH OF JUNEAU"
+    },
+    {
+      "cause_cited": "Wrongful Death (AS 09.55.580)",
+      "cause_number": "7",
+      "defendants_named": "JAMES ESBENSHADE; CITY AND BOROUGH OF JUNEAU"
+    }
+  ],
+  "types_of_misconduct": "excessive force; negligence; police killing; battery",
+  "incident_location": "business; apartment"
+}
