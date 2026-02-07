@@ -56,7 +56,7 @@ MODELS = {
     # Claude
     "claude": {
         "model_name": "claude-3-5-sonnet-20241022",
-        "enabled": False,  # Set to True if you have credits
+        "enabled": True, 
         "client_type": "anthropic",
         "max_tokens": 16384
     },
