@@ -1,0 +1,399 @@
+==================================================
+COMPLAINT TEXT
+==================================================
+
+{complaint_text}
+
+==================================================
+EXTRACTION INSTRUCTIONS
+==================================================
+
+You are a legal text analysis system that extracts structured factual data from police misconduct civil rights complaints. Your task is to read the complaint text provided above and return one valid JSON object exactly following the schema below.
+
+==================================================
+PRIMARY OBJECTIVE
+==================================================
+
+Extract only information that is explicitly supported by the text. Do NOT infer, assume, generalize, or fill in missing details. 
+
+CRITICAL: Select from the provided categorical options ONLY. Do not write free-form text descriptions. Every field has a defined set of allowed values - you must choose from these options only.
+
+If a field's information is absent, output "Unknown".
+
+==================================================
+SHARED FIELD DEFINITIONS
+==================================================
+
+RACE:
+A semicolon-separated list. Select ONLY from:
+- "American Indian or Alaska Native"
+- "Asian"
+- "Black or African American"
+- "Hispanic or Latino"
+- "Middle Eastern or North African"
+- "Native Hawaiian or Other Pacific Islander"
+- "White"
+- "Multiracial"
+- "Unknown"
+- "Other"
+
+GENDER:
+A semicolon-separated list. Select ONLY from:
+- "Male"
+- "Female"
+- "Transgender Male"
+- "Transgender Female"
+- "Nonbinary"
+- "Unknown"
+- "Other"
+
+AGE:
+Select EXACTLY one from:
+- "< 18"
+- "18 - 34"
+- "35 - 54"
+- "55 +"
+- "Unknown"
+- "Other"
+
+AGENCY TYPE:
+Select EXACTLY one from:
+- "Sheriff's office"
+- "Local police department"
+- "Judicial enforcement"
+- "State law enforcement"
+- "Federal Law Enforcement (all except immigration)"
+- "Immigration Enforcement"
+- "Tribal law enforcement"
+- "Military law enforcement"
+- "Detention"
+- "Immigration Detention"
+- "School Police"
+- "University Police"
+- "Unknown"
+- "Other"
+
+TYPE OF HARM:
+A semicolon-separated list. Select ONLY from:
+- "Excessive Force"
+- "Negligence"
+- "Unlawful Arrest"
+- "Unlawful Search"
+- "Unlawful Stop"
+- "Unlawful Detention"
+- "Failure to Intervene"
+- "Failure to Provide Medical Care"
+- "Inhumane Conditions of Confinement"
+- "Retaliation"
+- "Discrimination"
+- "Racial Profiling"
+- "Verbal Harassment"
+- "Physical Harassment"
+- "Physical Assault"
+- "Sexual Harassment"
+- "Sexual Assault"
+- "Property Destruction"
+- "Unlawful Seizure"
+- "Fabrication of Evidence"
+- "Malicious Prosecution"
+- "Unlawful Weapon Use"
+- "Defamation"
+- "Police Killing"
+- "Infliction of Emotional Distress"
+- "Hiring Discrimination"
+- "Workplace Harassment"
+- "Intimidation and Coercion"
+- "Unknown"
+- "Other"
+
+LOCATION TYPE:
+A semicolon-separated list. Select ONLY from:
+- "Street"
+- "Highway"
+- "Sidewalk"
+- "Home"
+- "Apartment"
+- "School"
+- "Business"
+- "Parking lot"
+- "Public park"
+- "Jail"
+- "Prison"
+- "Immigration Detention"
+- "Police station"
+- "Hospital"
+- "Vehicle"
+- "Court"
+- "Unknown"
+- "Other"
+
+==================================================
+ENTITIES TO EXTRACT
+==================================================
+
+1. DEFENDANTS
+--------------------------------------------------
+
+For each unique defendant (individual person OR organization), extract all information about them including the plaintiffs they harmed.
+
+defendant_name:
+Full name excluding ranks, titles, honorifics. For organizations, use full official name (e.g., "City of Los Angeles", "Los Angeles Police Department").
+
+defendant_entity_type:
+Select EXACTLY one from:
+- "Individual"
+- "Organization"
+- "Unknown"
+
+defendant_doe_status:
+Select EXACTLY one from:
+- "Doe" (defendant identity unknown, using placeholder name like "John Doe", "Jane Doe", "Officer Doe #1")
+- "Not Doe" (defendant identified by actual name)
+- "Unknown"
+
+defendant_role:
+Select EXACTLY one from:
+- "Primary Actor" (directly perpetrated the harm)
+- "Secondary Involvement" (assisted, enabled, or participated but not primary actor)
+- "Authority" (supervisory role, policy-maker, or institutional responsibility)
+- "Bystander / Witness" (present but did not actively participate)
+- "Unknown"
+- "Other"
+
+defendant_race:
+See RACE definition above. If defendant is an organization, output "Unknown".
+
+defendant_gender:
+See GENDER definition above. If defendant is an organization, output "Unknown".
+
+defendant_age:
+See AGE definition above. If defendant is an organization, output "Unknown".
+
+defendant_agency_name:
+Full agency name exactly as written. "Unknown" if not stated. If defendant IS the agency itself, repeat the defendant_name here.
+
+defendant_agency_type:
+See AGENCY TYPE definition above.
+
+plaintiffs_harmed:
+An array of plaintiffs this defendant harmed. For each plaintiff harmed by this defendant:
+
+  plaintiff_name:
+  Full name of the plaintiff exactly as written in the complaint.
+
+  harms_to_this_plaintiff:
+  See TYPE OF HARM definition above. Only harms this defendant inflicted on this specific plaintiff. Use semicolons to separate multiple harms (no spaces after semicolons).
+
+  location_type:
+  See LOCATION TYPE definition above. Where this defendant harmed this plaintiff. Use semicolons to separate multiple location types if applicable.
+
+  location_city:
+  City name exactly as written. "Unknown" if not mentioned.
+
+  location_street:
+  Street name/address exactly as written. "Unknown" if not mentioned.
+
+  location_county:
+  County name exactly as written. "Unknown" if not mentioned.
+
+  location_state:
+  State name exactly as written (full name or abbreviation as appears in text). "Unknown" if not mentioned.
+
+  location_zipcode:
+  Zip code exactly as written. "Unknown" if not mentioned.
+
+2. PLAINTIFFS
+--------------------------------------------------
+
+For each unique plaintiff, extract their demographic information.
+
+plaintiff_name:
+Full name exactly as written in the complaint.
+
+plaintiff_officer_status:
+Select EXACTLY one from:
+- "Police officer"
+- "Not a police officer"
+- "Unknown"
+
+plaintiff_race:
+See RACE definition above.
+
+plaintiff_gender:
+See GENDER definition above.
+
+plaintiff_age:
+See AGE definition above.
+
+plaintiff_disability_status:
+Select EXACTLY one from:
+- "Disabled"
+- "Not disabled"
+- "Unknown"
+- "Other"
+
+plaintiff_immigration_status:
+Select EXACTLY one from:
+- "Immigrant"
+- "Not an immigrant"
+- "Unknown"
+- "Other"
+
+3. UNATTRIBUTED HARMS
+--------------------------------------------------
+
+If harms are described but NOT attributed to a specific named defendant, extract them here. This includes harms attributed only to "officers", "deputies", "staff", or other generic descriptions without specific names.
+
+plaintiff_name:
+Full name of the plaintiff who suffered harm.
+
+harms_suffered:
+See TYPE OF HARM definition above. Harms suffered by this plaintiff that are not attributed to a specific defendant. Use semicolons to separate multiple harms.
+
+agency_name:
+Full agency name if mentioned. "Unknown" if not stated.
+
+agency_type:
+See AGENCY TYPE definition above.
+
+location_type:
+See LOCATION TYPE definition above. Use semicolons to separate multiple location types if applicable.
+
+location_city:
+City name exactly as written. "Unknown" if not mentioned.
+
+location_street:
+Street name/address exactly as written. "Unknown" if not mentioned.
+
+location_county:
+County name exactly as written. "Unknown" if not mentioned.
+
+location_state:
+State name exactly as written. "Unknown" if not mentioned.
+
+location_zipcode:
+Zip code exactly as written. "Unknown" if not mentioned.
+
+==================================================
+OUTPUT FORMAT (STRICTLY VALID JSON)
+==================================================
+
+{
+  "defendants": [
+    {
+      "defendant_name": "string",
+      "defendant_entity_type": "string",
+      "defendant_doe_status": "string",
+      "defendant_role": "string",
+      "defendant_race": "string",
+      "defendant_gender": "string",
+      "defendant_age": "string",
+      "defendant_agency_name": "string",
+      "defendant_agency_type": "string",
+      "plaintiffs_harmed": [
+        {
+          "plaintiff_name": "string",
+          "harms_to_this_plaintiff": "string",
+          "location_type": "string",
+          "location_city": "string",
+          "location_street": "string",
+          "location_county": "string",
+          "location_state": "string",
+          "location_zipcode": "string"
+        }
+      ]
+    }
+  ],
+  "plaintiffs": [
+    {
+      "plaintiff_name": "string",
+      "plaintiff_officer_status": "string",
+      "plaintiff_race": "string",
+      "plaintiff_gender": "string",
+      "plaintiff_age": "string",
+      "plaintiff_disability_status": "string",
+      "plaintiff_immigration_status": "string"
+    }
+  ],
+  "unattributed_harms": [
+    {
+      "plaintiff_name": "string",
+      "harms_suffered": "string",
+      "agency_name": "string",
+      "agency_type": "string",
+      "location_type": "string",
+      "location_city": "string",
+      "location_street": "string",
+      "location_county": "string",
+      "location_state": "string",
+      "location_zipcode": "string"
+    }
+  ]
+}
+
+==================================================
+MANDATORY RULES FOR ROBUST EXTRACTION
+==================================================
+
+1. Output ONLY valid JSON — no commentary, no markdown, no code blocks, no preamble, no explanation.
+
+2. Use "Unknown" for ANY missing values — never leave fields empty or null.
+
+3. NEVER write free-form descriptions — select from provided categorical options ONLY.
+
+4. For multi-choice fields, separate multiple selections with semicolons with NO spaces (e.g., "Excessive Force;Unlawful Arrest").
+
+5. Use SHORT category names exactly as listed (e.g., "Excessive Force" not "excessive use of force").
+
+6. Do not infer or assume information not explicitly stated in the complaint text.
+
+7. Each unique defendant appears ONCE with complete demographic info.
+
+8. Each unique plaintiff appears ONCE in the plaintiffs array with complete demographic info.
+
+9. Within each defendant's "plaintiffs_harmed" array, list all plaintiffs that defendant harmed with the specific harms and locations.
+
+10. If a harm is described without naming a specific defendant (e.g., "officers beat the plaintiff"), use the unattributed_harms array.
+
+11. defendant_entity_type must be "Individual" for people (officers, deputies, supervisors) and "Organization" for agencies, departments, cities, counties, etc.
+
+12. For Doe defendants (unnamed officers), set defendant_doe_status to "Doe" and defendant_entity_type to "Individual".
+
+13. When organizations are defendants, set race/gender/age to "Unknown".
+
+14. Extract location information at the most specific level available (if street address is given, include it; if only city, include city).
+
+15. State should be included in location fields when mentioned (added location_state field).
+
+16. Semicolon-separated lists must have NO SPACES after semicolons.
+
+17. All string values must be properly escaped for JSON (escape quotes, backslashes, etc.).
+
+18. The output must parse as valid JSON without any modifications.
+
+19. Empty arrays are valid (e.g., if no defendants are named, "defendants": []).
+
+20. When uncertain about a categorical value, always choose "Unknown" rather than "Other" unless the text explicitly describes something that doesn't fit any category.
+
+21. Read the ENTIRE complaint before extracting to ensure you capture all defendants, plaintiffs, and relationships.
+
+22. For compound harms in a single incident, list all applicable harm types separated by semicolons.
+
+23. Verify every extracted category value against the allowed options before outputting.
+
+==================================================
+VALIDATION CHECKLIST
+==================================================
+
+Before outputting, verify:
+☐ JSON is valid and parseable
+☐ No fields are null or empty (use "Unknown" instead)
+☐ All categorical values match exactly from allowed options
+☐ Semicolon-separated lists have no spaces after semicolons
+☐ defendant_entity_type is set for all defendants
+☐ Each plaintiff appears exactly once in plaintiffs array
+☐ Each defendant appears exactly once in defendants array
+☐ No markdown, code blocks, or commentary included
+☐ All quotes and special characters are properly escaped
+
+==================================================
