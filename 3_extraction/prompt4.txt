@@ -31,38 +31,37 @@ OUTPUT SCHEMA
 Return a JSON array of incident objects in the following format:
 
 {
-  "incidents": [
+  "incident_id": "string",
+  "location": "string",            
+  "location_type": "string",      
+  "plaintiffs": [
     {
-      "incident_id": "string",
-      "location": "string",
-      "location_type": "string",
-      "plaintiffs": [
-        {
-          "name": "string",
-          "race": "string",
-          "gender": "string",
-          "disability_status": "string",
-          "immigration_status": "string"
-        }
-      ],
-    "defendants": [
-      {
-        "name": "string",
-        "doe_status": "string",
-        "entity_type": "string",
-        "agency": "string",
-        "agency_type": "string",
-        "role_in_incident": "string"
-      }
-    ],
-    "harms": [
-      {
-        "type": "string"
-      }
-    ]
-   }
+      "name": "string",         
+      "race": "string", 
+      "gender": "string", 
+      "disability_status": "string", 
+      "immigration_status": "string" 
+    }
+  ],
+  "defendants": [
+    {
+      "name": "string",
+      "race": "string", 
+      "gender": "string", 
+      "doe_status": "string", 
+      "entity_type": "string",      
+      "agency": "string",   
+      "agency_type": "string",       
+      "role_in_incident": "string"  
+    }
+  ],
+  "harms": [
+    {
+      "type": "string"
+    }
   ]
 }
+
 
 ==================================================
 CATEGORICAL DEFINITIONS
