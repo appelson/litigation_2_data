@@ -23,7 +23,7 @@ Extract ONLY information explicitly supported by the complaint text. DO NOT infe
 
 CRITICAL:
 
-Use ONLY the provided categorical options, DO NOT write free-form category values, if information is missing, use "Unknown", output MUST be strictly valid JSON.
+Use ONLY the provided categorical options, DO NOT write free-form category values, if information is missing, use "Not Stated", output MUST be strictly valid JSON.
 
 ==================================================
 OUTPUT SCHEMA
@@ -193,7 +193,7 @@ MANDATORY EXTRACTION RULES
 
 1) Output ONLY valid JSON. No markdown, no commentary, no explanation.
 
-2) Use "Unknown" for ANY missing value. Never leave fields blank.
+2) Use "Not Stated" for ANY missing value. Never leave fields blank.
 
 3) Do NOT invent demographic information.
 
