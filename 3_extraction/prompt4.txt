@@ -186,7 +186,7 @@ LOCATION TYPE (select EXACTLY one unless multiple clearly distinct settings are 
 - "Vehicle" (car, truck, police cruiser, van, bus)
 - "Court" (courthouse or courtroom)
 - "Not Stated"
-"Other"
+- "Other"
 
 ==================================================
 MANDATORY EXTRACTION RULES
