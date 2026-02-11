@@ -1,0 +1,213 @@
+==================================================
+COMPLAINT TEXT
+
+{complaint_text}
+
+==================================================
+EXTRACTION INSTRUCTIONS
+
+You are a legal text analysis system that extracts structured factual data from police misconduct civil rights complaints.
+
+Your task is to read the complaint text provided above and extract structured data about incidents, where each incident is defined as: 
+
+A single, discrete event in which one or more plaintiffs experience one or more harms, caused or allegedly caused by one or more defendants, occurring at a specific location and time.
+
+Each row represents ONE incident. 
+
+If multiple *distinct* events occur at different times or locations, treat them as separate incidents.
+
+==================================================
+PRIMARY OBJECTIVE
+
+Extract ONLY information explicitly supported by the complaint text. DO NOT infer, assume, speculate, or fill in missing details.
+
+CRITICAL:
+
+Use ONLY the provided categorical options, DO NOT write free-form category values, if information is missing, use "Unknown", output MUST be strictly valid JSON.
+
+==================================================
+OUTPUT SCHEMA
+
+Return a JSON array of incident objects in the following format:
+
+{
+  "incidents": [
+    {
+      "incident_id": "string",
+      "location": "string",
+      "location_type": "string",
+      "plaintiffs": [
+        {
+          "name": "string",
+          "race": "string",
+          "gender": "string",
+          "disability_status": "string",
+          "immigration_status": "string"
+        }
+      ],
+    "defendants": [
+      {
+        "name": "string",
+        "doe_status": "string",
+        "entity_type": "string",
+        "agency": "string",
+        "agency_type": "string",
+        "role_in_incident": "string"
+      }
+    ],
+    "harms": [
+      {
+        "type": "string"
+      }
+    ]
+   }
+  ]
+}
+
+==================================================
+CATEGORICAL DEFINITIONS
+
+RACE (select ONLY one unless explicitly multiracial; if multiple, separate with semicolons, no spaces):
+- "American Indian or Alaska Native"
+- "Asian"
+- "Black or African American"
+- "Hispanic or Latino"
+- "Middle Eastern or North African"
+- "Native Hawaiian or Other Pacific Islander"
+- "White"
+- "Multiracial"
+- "Unknown"
+- "Other"
+
+GENDER (semicolon-separated list, no spaces):
+- "Male"
+- "Female"
+- "Transgender Male"
+- "Transgender Female"
+- "Nonbinary"
+- "Unknown"
+- "Other"
+
+DISABILITY STATUS (select EXACTLY one):
+- "Disabled"
+- "Not disabled"
+- "Unknown"
+- "Other"
+
+IMMIGRATION STATUS (select EXACTLY one):
+- "Immigrant"
+- "Not an Immigrant"
+- "Unknown"
+- "Other"
+
+DOE STATUS (select EXACTLY one):
+- "Doe"
+- "Not Doe"
+- "Unknown"
+
+ENTITY TYPE (select EXACTLY one):
+- "Individual"
+- "Organization"
+- "Unknown"
+
+AGENCY TYPE (select EXACTLY one):
+- "Sheriff's office"
+- "Local police department"
+- "Judicial enforcement"
+- "State law enforcement"
+- "Federal Law Enforcement (all except immigration)"
+- "Immigration Enforcement"
+- "Tribal law enforcement"
+- "Military law enforcement"
+- "Detention"
+- "Immigration Detention"
+- "School Police"
+- "University Police"
+- "Unknown"
+- "Other"
+
+DEFENDANT ROLE IN INCIDENT (select EXACTLY one):
+- "Primary Actor"
+- "Secondary Involvement"
+- "Authority"
+- "Bystander / Witness"
+- "Unknown"
+- "Other"
+
+TYPE OF HARM (semicolon-separated list if multiple harms occur in same incident; no spaces):
+- "Excessive Force"
+- "Negligence"
+- "Unlawful Arrest"
+- "Unlawful Search"
+- "Unlawful Stop"
+- "Unlawful Detention"
+- "Failure to Intervene"
+- "Failure to Provide Medical Care"
+- "Inhumane Conditions of Confinement"
+- "Retaliation"
+- "Discrimination"
+- "Racial Profiling"
+- "Verbal Harassment"
+- "Physical Harassment"
+- "Physical Assault"
+- "Sexual Harassment"
+- "Sexual Assault"
+- "Property Destruction"
+- "Unlawful Seizure"
+- "Fabrication of Evidence"
+- "Malicious Prosecution"
+- "Unlawful Weapon Use"
+- "Defamation"
+- "Police Killing"
+- "Infliction of Emotional Distress"
+- "Hiring Discrimination"
+- "Workplace Harassment"
+- "Intimidation and Coercion"
+- "Unknown"
+- "Other"
+
+LOCATION TYPE (select EXACTLY one unless multiple clearly distinct settings are described in same incident; if multiple, use semicolons with no spaces):
+- "Street"
+- "Highway"
+- "Sidewalk"
+- "Home"
+- "Apartment"
+- "School"
+- "Business"
+- "Parking lot"
+- "Public park"
+- "Jail"
+- "Prison"
+- "Immigration Detention"
+- "Police station"
+- "Hospital"
+- "Vehicle"
+- "Court"
+- "Unknown"
+- "Other"
+
+==================================================
+MANDATORY EXTRACTION RULES
+
+1) Output ONLY valid JSON. No markdown, no commentary, no explanation.
+
+2) Use "Unknown" for ANY missing value. Never leave fields blank.
+
+3) Do NOT invent demographic information.
+
+4) Do NOT assume race, gender, disability, or immigration status.
+
+5) If multiple harms occur in the same encounter, include them all in the same incident under "harms".
+
+6) If multiple plaintiffs are harmed in the same encounter, include them all under the same incident.
+
+7) If distinct events occur at different times or locations, create separate incident objects.
+
+8) Verify all categorical values exactly match the allowed options before outputting.
+
+9) Ensure JSON is syntactically valid and parseable.
+
+==================================================
+STARTING PROCESS
+
+Before you begin, please think about an outline.
