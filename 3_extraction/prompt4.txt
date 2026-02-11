@@ -75,9 +75,9 @@ RACE (select ONLY one unless explicitly multiracial; if multiple, separate with 
 - "Middle Eastern or North African"
 - "Native Hawaiian or Other Pacific Islander"
 - "White"
-- "Multiracial"
-- "Unknown"
-- "Other"
+- "Multiracial" (use only when complaint explicitly states multiple races)
+- "Not Stated"
+- "Other" (for races not listed above but explicitly mentioned)
 
 GENDER (semicolon-separated list, no spaces):
 - "Male"
@@ -85,106 +85,108 @@ GENDER (semicolon-separated list, no spaces):
 - "Transgender Male"
 - "Transgender Female"
 - "Nonbinary"
-- "Unknown"
-- "Other"
+- "Not Stated"
+- "Other" (for genders not listed above but explicitly mentioned)
 
 DISABILITY STATUS (select EXACTLY one):
-- "Disabled"
-- "Not disabled"
-- "Unknown"
+- "Disabled" (any physical, mental, or developmental disability mentioned)
+- "Not disabled" (only if the complaint explicitly states the person is not disabled)
+- "Not Stated"
 - "Other"
 
 IMMIGRATION STATUS (select EXACTLY one):
-- "Immigrant"
+- "Undocumented Immigrant"
+- "Documented Immigrant"
+- "Immigrant Unstated Documentation"
 - "Not an Immigrant"
-- "Unknown"
+- "Not Stated"
 - "Other"
 
 DOE STATUS (select EXACTLY one):
-- "Doe"
-- "Not Doe"
-- "Unknown"
+- "Doe" (defendant identified as John/Jane Doe or similar placeholder)
+- "Not Doe" (defendant identified by actual name)
+- "Other"
 
 ENTITY TYPE (select EXACTLY one):
-- "Individual"
-- "Organization"
-- "Unknown"
+- "Individual" (a person)
+- "Organization" (police department, municipality, corporation, etc.)
+- "Other"
 
 AGENCY TYPE (select EXACTLY one):
 - "Sheriff's office"
-- "Local police department"
-- "Judicial enforcement"
-- "State law enforcement"
-- "Federal Law Enforcement (all except immigration)"
-- "Immigration Enforcement"
+- "Local police department"  (city or town police)
+- "Judicial enforcement" (court officers, marshals executing court orders) 
+- "State law enforcement" (state police, highway patrol, state troopers)
+- "Federal Law Enforcement (all except immigration)"  (FBI, DEA, ATF, Secret Service, etc.)
+- "Immigration Enforcement"  (ICE, CBP, Border Patrol)
 - "Tribal law enforcement"
-- "Military law enforcement"
-- "Detention"
-- "Immigration Detention"
-- "School Police"
-- "University Police"
-- "Unknown"
+- "Military law enforcement" (military police, provost marshal)
+- "Detention" (jail or prison staff, corrections officers - non-immigration)
+- "Immigration Detention" (staff at ICE detention facilities)
+- "School Police" (K-12 school resource officers, school safety officers)
+- "University Police" (college/university campus police)
+- "Not Stated"
 - "Other"
 
 DEFENDANT ROLE IN INCIDENT (select EXACTLY one):
-- "Primary Actor"
-- "Secondary Involvement"
-- "Authority"
-- "Bystander / Witness"
-- "Unknown"
+- "Primary Actor" (directly caused the harm; hands-on participant in the incident)
+- "Secondary Involvement" (assisted or participated but not the main actor)
+- "Authority" (supervisor, commander, or official with oversight responsibility)
+- "Bystander / Witness" (present at scene but did not actively participate)
+- "Not Stated"
 - "Other"
 
 TYPE OF HARM (semicolon-separated list if multiple harms occur in same incident; no spaces):
-- "Excessive Force"
-- "Negligence"
-- "Unlawful Arrest"
-- "Unlawful Search"
-- "Unlawful Stop"
-- "Unlawful Detention"
-- "Failure to Intervene"
-- "Failure to Provide Medical Care"
-- "Inhumane Conditions of Confinement"
-- "Retaliation"
-- "Discrimination"
-- "Racial Profiling"
-- "Verbal Harassment"
-- "Physical Harassment"
-- "Physical Assault"
-- "Sexual Harassment"
-- "Sexual Assault"
-- "Property Destruction"
-- "Unlawful Seizure"
-- "Fabrication of Evidence"
-- "Malicious Prosecution"
-- "Unlawful Weapon Use"
-- "Defamation"
-- "Police Killing"
-- "Infliction of Emotional Distress"
-- "Hiring Discrimination"
-- "Workplace Harassment"
-- "Intimidation and Coercion"
-- "Unknown"
+- "Excessive Force" (physical force beyond what is reasonable or necessary)
+- "Negligence" (failure to exercise reasonable care)
+- "Unlawful Arrest" (arrest without probable cause or legal authority)
+- "Unlawful Search" (search of person or property without warrant or valid exception)
+- "Unlawful Stop" (detention of person without reasonable suspicion)
+- "Unlawful Detention" (holding someone without legal justification)
+- "Failure to Intervene" (officer witnessed misconduct but did not stop it)
+- "Failure to Provide Medical Care" (denial or delay of necessary medical treatment)
+- "Inhumane Conditions of Confinement" (inadequate food, sanitation, space, safety in detention)
+- "Retaliation" (adverse action in response to protected activity like filing complaint)
+- "Discrimination" (differential treatment based on protected characteristic)
+- "Racial Profiling" (targeting based on race or ethnicity)
+- "Verbal Harassment" (threatening, abusive, or demeaning language)
+- "Physical Harassment" (unwanted physical contact that is intimidating but not assault)
+- "Physical Assault" (intentional harmful or offensive physical contact)
+- "Sexual Harassment" (unwanted sexual advances, comments, or conduct)
+- "Sexual Assault" (non-consensual sexual contact or rape)
+- "Property Destruction" (intentional damage to personal property)
+- "Unlawful Seizure" (taking property without legal authority)
+- "Fabrication of Evidence" (creating false evidence or planting evidence)
+- "Malicious Prosecution" (initiating criminal charges without probable cause and with malice)
+- "Unlawful Weapon Use" (improper deployment of firearms, tasers, batons, pepper spray, etc.)
+- "Defamation" (false statements damaging reputation)
+- "Police Killing" (death caused by law enforcement action)
+- "Infliction of Emotional Distress" (intentional or negligent conduct causing severe emotional harm)
+- "Hiring Discrimination" (discriminatory employment practices)
+- "Workplace Harassment" (hostile work environment or workplace mistreatment)
+- "Intimidation and Coercion" (threats or pressure to act against one's will)
+- "Not Stated"
 - "Other"
 
 LOCATION TYPE (select EXACTLY one unless multiple clearly distinct settings are described in same incident; if multiple, use semicolons with no spaces):
-- "Street"
-- "Highway"
-- "Sidewalk"
-- "Home"
-- "Apartment"
-- "School"
-- "Business"
+- "Street" (public roadway)
+- "Highway" (major roadway, freeway, interstate)
+- "Sidewalk" (pedestrian path along street)
+- "Home" (private residence, house)
+- "Apartment" (multi-unit residential building)
+- "School" (K-12 educational facility)
+- "Business" (commercial establishment, store, office, restaurant)
 - "Parking lot"
 - "Public park"
-- "Jail"
-- "Prison"
-- "Immigration Detention"
-- "Police station"
-- "Hospital"
-- "Vehicle"
-- "Court"
-- "Unknown"
-- "Other"
+- "Jail" (local detention facility)
+- "Prison" (state or federal correctional facility)
+- "Immigration Detention" (ICE detention center or similar facility)
+- "Police station" (law enforcement facility)
+- "Hospital" (medical facility)
+- "Vehicle" (car, truck, police cruiser, van, bus)
+- "Court" (courthouse or courtroom)
+- "Not Stated"
+"Other"
 
 ==================================================
 MANDATORY EXTRACTION RULES
@@ -210,4 +212,4 @@ MANDATORY EXTRACTION RULES
 ==================================================
 STARTING PROCESS
 
-Before you begin, please think about an outline.
+Before you begin, please think about an outline of the task, then once finished, begin.
